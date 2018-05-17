@@ -12,6 +12,8 @@ typedef struct BMPFILEHEADER{
 	unsigned long	bfOffBits;		//Смещение до самого изображения
 } BMPFILEHEADER;
 
+#pragma pack(pop)
+
 typedef struct BMPINFOHEADER{
 	unsigned int biSize;			//Длина заголовка
 	unsigned int biWidth;			//Ширина изображения
