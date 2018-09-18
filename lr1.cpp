@@ -6,6 +6,8 @@ using namespace std ;
 bool bracket (ifstream &infile, char ch);
 void Error (short k);
 
+
+
 int main ( ){
 	cout<<"ВАС ПРИВЕТСТВУЕТ АНАЛИЗАТОР СКОБОК! ДЛЯ ТОГО ЧТОБЫ СЧИТАТЬ СКОБКИ С ФАЙЛА test.txt НАЖМИТЕ 1, ДЛЯ ВВОДА С КЛАВИАТУРЫ И ЗАПИСИ В ФАЙЛ test1.txt НАЖМИТЕ 2, ДЛЯ ВЫХОДА НАЖМИТЕ 0"<<endl;
 	bool exit = true, check;
@@ -16,7 +18,6 @@ int main ( ){
 	while (exit){
 		cin>>forSwitch;
 		switch (forSwitch){
-			check = false;
 			case 1:{
 				ifstream infile ("test.txt");
 				if (infile >> ch){ 
@@ -77,15 +78,17 @@ int main ( ){
 	return 0;
 }
 bool bracket (ifstream &infile, char ch){ 
+	static string tab;
 	bool forCheck;
 	if (ch == 'A') 
 		return true;
 	else if ( ch == '(' ){
 		if (infile >> ch){
-			cout << ch;
+			cout << tab << ch <<endl;
 			if (ch == 'B'){
-				if (infile >> ch){
-					cout << ch;
+				tab.push_back('\t');
+				if (infile >> ch){ 
+					cout << tab << ch << endl;
 					forCheck = bracket (infile,ch);
 				}
 				else{
@@ -94,17 +97,17 @@ bool bracket (ifstream &infile, char ch){
 				} 
 				if (forCheck){ 
 					if (infile >> ch){
-						cout << ch;
+						cout << tab << ch <<endl;
 						forCheck = bracket (infile,ch);
 					}
 				}
 				else{
-					Error(4);
-					return false; //neppavilnie skobki
+					return false; //nepravilnie skobki
 				}
+				tab.pop_back();
 				if (forCheck) {
 					if (infile >> ch){ 
-						cout << ch;
+						cout << tab << ch << endl;
 						if (ch != ')')
 							Error(5);
 						return (ch == ')');
