@@ -108,8 +108,10 @@ bool bracket (ifstream &infile, char ch){
 				if (forCheck) {
 					if (infile >> ch){ 
 						cout << tab << ch << endl;
-						if (ch != ')')
+						if (ch != ')'){
 							Error(5);
+							return false;
+						}
 						return (ch == ')');
 					}
 					else{
