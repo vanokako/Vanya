@@ -6,7 +6,7 @@ using namespace std ;
 bool bracket (ifstream &infile, char ch);
 void Error (short k);
 
-bool start (ifstream &infile, char ch, bool check){
+bool beginning (ifstream &infile, char ch, bool check){
 	if (infile >> ch){ 
 		cout << ch;
 		if ((ch == 'A') || (ch == '('))
@@ -38,7 +38,7 @@ int main ( ){
 			case 1:{
 				ifstream infile ("test.txt");
 				cout << endl;
-				check = start(infile, ch, check);
+				check = beginning(infile, ch, check);
 				if (infile >> ch)
 					Error (7);
 				else if (check)
@@ -53,7 +53,7 @@ int main ( ){
 				fputs(arr,fp);
 				fclose(fp);
 				ifstream infile ("test1.txt");
-				check = start(infile, ch, check);
+				check = beginning(infile, ch, check);
 				cout << endl;
 				if (infile >> ch)
 					Error (7);
@@ -79,9 +79,12 @@ bool bracket (ifstream &infile, char ch){
 	if (ch == 'A') 
 		return true;
 	
-	else if ( ch == '(' ){
-		if (infile >> ch){
-			cout << tab << ch <<endl;
+	if ( ch != '(' ){
+		Error(0);
+		return false;
+	}
+	if (infile >> ch){
+		cout << tab << ch <<endl;
 			if (ch == 'B'){
 				tab.push_back('\t');
 				if (infile >> ch){ 
@@ -132,10 +135,7 @@ bool bracket (ifstream &infile, char ch){
 			return false; 
 		}
 	}
-	else{ 
-		Error(0);
-		return false; //ne a i ne skobka
-	}
+
 	
 }
 
