@@ -1,0 +1,44 @@
+#include <iostream>
+#include <fstream>
+#include <cstdio>
+#include <cstring>
+#include <cctype>
+
+//bool analiz (string* str, int i, int count);
+using namespace std;
+
+bool analiz (string* str, int i, int count){
+	while ((*str)[i]){
+		if ((*str)[i] == '('){
+			count++;
+			i++;
+		}
+
+		else if(isalpha((*str)[i])){
+			i++;
+		} 
+ 
+		else if ((*str)[i] == ')'){
+			count--;
+			i++;
+		}
+		else
+			return false;	
+	}
+	if(count != 0) 
+		return false;
+	return true;
+}
+
+int main (){
+	bool check;
+	int i = 0, count = 0;
+	string* tmp = new string();
+	getline(cin,*tmp);
+	check = analiz(tmp, i, count); 
+	if (!check)
+		cout<<"Неверно введено выражение!"<<endl;
+	return 0;
+}
+
+
