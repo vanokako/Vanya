@@ -1,44 +1,27 @@
 #include <iostream>
-#include <fstream>
-#include <cstdio>
+#include <cstdlib>
 #include <cstring>
-#include <cctype>
+#include "list.h"
 
-//bool analiz (string* str, int i, int count);
+
+
+
 using namespace std;
 
-bool analiz (string* str, int i, int count){
-	while ((*str)[i]){
-		if ((*str)[i] == '('){
-			count++;
-			i++;
-		}
 
-		else if(isalpha((*str)[i])){
-			i++;
-		} 
- 
-		else if ((*str)[i] == ')'){
-			count--;
-			i++;
-		}
-		else
-			return false;	
-	}
-	if(count != 0) 
-		return false;
-	return true;
+
+int main ( )
+{
+    lisp s1, s2;
+    cout << "введите list1:" << endl;
+    read_lisp (s1);
+    cout << "введен list1: " << endl;
+    write_lisp (s1);
+    cout << endl;
+    cout << "Список перевернут: " << endl;
+    s2 = rev (s1, NULL);
+    write_lisp (s2);
+    cout << endl;
+    destroy (s2);
+    return 0;
 }
-
-int main (){
-	bool check;
-	int i = 0, count = 0;
-	string* tmp = new string();
-	getline(cin,*tmp);
-	check = analiz(tmp, i, count); 
-	if (!check)
-		cout<<"Неверно введено выражение!"<<endl;
-	return 0;
-}
-
-
