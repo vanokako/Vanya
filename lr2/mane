@@ -5,19 +5,28 @@
 
 
 
-
 using namespace std;
 
 
 
-int main ( )
-{
+int main ( ){
+    string str;
+    char ch;
+    ifstream infile ("a.txt");
     lisp s1, s2;
     cout << "введите list1:" << endl;
-    read_lisp (s1);
+    cin >> str;
+    ofstream out("a.txt");
+    out<<str;
+    out.close();
+    read_lisp (s1, infile);
     cout << "введен list1: " << endl;
     write_lisp (s1);
     cout << endl;
+    if(infile >> ch){
+		cout<<"! Лишние символы !"<<endl;
+		return 0;
+    }
     cout << "Список перевернут: " << endl;
     s2 = rev (s1, NULL);
     write_lisp (s2);
@@ -25,3 +34,5 @@ int main ( )
     destroy (s2);
     return 0;
 }
+
+
