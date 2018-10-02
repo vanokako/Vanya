@@ -92,57 +92,53 @@ void destroy (lisp s){
     }
 
 
-char getAtom (const lisp s){
-        if (!isAtom(s)) {
-            cerr << "Error: getAtom(s) for !isAtom(s) \n";
-            exit(1);
-        }
-        else
-            return (s->node.atom);
-    }
 
 
-void read_lisp ( lisp& y){
+void read_lisp ( lisp& y, ifstream &infile){
         char x;
         do{
-            cin >> x;
+            infile >> x;
         }while (x==' ');
-        read_s_expr ( x, y);
-    }
-  
-void read_s_expr (char prev, lisp& y){ 
+        read_s_expr ( x, y, infile);
+}
+
+
+void read_s_expr (char prev, lisp& y, ifstream &infile){ 
         if ( prev == ')' ) {
-            cerr << " ! List.Error 1 " << endl;
+            cerr << " ! Закрывающая скобка перед открывающей ! " << endl;
             exit(1);
         }
-        else if ( prev != '(' ){
+        else if ( prev != '(' )
             y = make_atom (prev);
-		}
         else
-            read_seq (y);
+            read_seq (y, infile);
 } 
   
 
-void read_seq ( lisp& y){
+
+void read_seq ( lisp& y, ifstream &infile){
         char x;
         lisp p1, p2;
-        if (!(cin >> x)) {
-            cerr << " ! List.Error 2 " << endl;
+        if (!(infile >> x)) {
+            cerr << " ! Не хватает символов ! " << endl;
             exit(1);
         }
         else {
-            while ( x==' ' )
-                cin >> x;
+            while ( x==' ' ){
+                infile >> x;
+            }
 
             if ( x == ')' )
                 y = NULL;
             else {
-                read_s_expr ( x, p1);
-                read_seq ( p2);
+                read_s_expr ( x, p1, infile);
+                read_seq ( p2, infile);
                 y = cons (p1, p2);
             }
         }
-} 
+}
+
+
 void write_lisp (const lisp x){
         if (isNull(x))
             cout << " ()";
