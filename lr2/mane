@@ -1,38 +1,40 @@
-#include <iostream>
-#include <cstdlib>
-#include <cstring>
-#include "list.h"
-
-
-
-using namespace std;
-
-
-
 int main ( ){
-    string str;
+    char forSwitch;
+    stringbuf exp;
+    string list;
     char ch;
-    ifstream infile ("a.txt");
     lisp s1, s2;
-    cout << "введите list1:" << endl;
-    cin >> str;
-    ofstream out("a.txt");
-    out<<str;
-    out.close();
-    read_lisp (s1, infile);
-    cout << "введен list1: " << endl;
-    write_lisp (s1);
-    cout << endl;
-    if(infile >> ch){
-		cout<<"! Лишние символы !"<<endl;
-		return 0;
+    while (1){
+        cin>>forSwitch;
+        cin.ignore();
+        switch(forSwitch){
+            case '1':{
+                cout << "введите list1:" << endl;
+                getline(cin, list);
+                istream str(&exp);
+                exp.str(list);
+                start(s1,s2,str);
+                break;
+            }
+             case '2':{
+                ifstream infile("a.txt");
+                 getline(infile, list);
+                istream str(&exp);
+                exp.str(list);
+                start(s1,s2,str);
+                break;
+            }
+            case '0':{
+                cout<<"Bye!"<<endl;
+                return 0;
+            }
+            default:{
+                cout<<"НЕВЕРНЫЙ ВВОД!"<<endl;
+                break;
+            }
+       }
+
     }
-    cout << "Список перевернут: " << endl;
-    s2 = rev (s1, NULL);
-    write_lisp (s2);
-    cout << endl;
-    destroy (s2);
-    return 0;
+
+
 }
-
-
