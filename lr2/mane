@@ -5,6 +5,7 @@ int main ( ){
     char ch;
     lisp s1, s2;
     while (1){
+        cout << "Нажмите 1 для ввода с клавиатуры, 2 для ввода с файла, 0 для выхода"<<endl;
         cin>>forSwitch;
         cin.ignore();
         switch(forSwitch){
@@ -17,7 +18,7 @@ int main ( ){
                 break;
             }
              case '2':{
-                ifstream infile("a.txt");
+                ifstream infile("list.txt");
                  getline(infile, list);
                 istream str(&exp);
                 exp.str(list);
