@@ -1,3 +1,4 @@
+#include "list.h"
 int start( lisp& s1, lisp& s2, istream &astr){
     char ch;
     read_lisp (s1, astr);
