@@ -1,3 +1,4 @@
+#include "list.h"
 lisp head (const lisp s){
         if (s != NULL)
             if (!isAtom(s))
