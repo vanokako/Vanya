@@ -85,16 +85,16 @@ void destroy (lisp s){
 
 
 
-void read_lisp ( lisp& y, istream &astr){
+void read_lisp ( lisp& y, istream &list){
         char x;
         do{
-            astr >> x;
+            list >> x;
         }while (x==' ');
-        read_s_expr ( x, y, astr);
+        read_s_expr ( x, y, list);
 }
 
 
-void read_s_expr (char prev, lisp& y, istream &astr){
+void read_s_expr (char prev, lisp& y, istream &list){
         if ( prev == ')' ) {
             cerr << " ! Закрывающая скобка перед открывающей ! " << endl;
             exit(1);
@@ -102,28 +102,28 @@ void read_s_expr (char prev, lisp& y, istream &astr){
         else if ( prev != '(' )
             y = make_atom (prev);
         else
-            read_seq (y, astr);
+            read_seq (y, list);
 }
 
 
 
-void read_seq ( lisp& y, istream &astr){
+void read_seq ( lisp& y, istream &list){
         char x;
         lisp p1, p2;
-        if (!(astr >> x)) {
+        if (!(list >> x)) {
             cerr << " ! Не хватает символов ! " << endl;
             exit(1);
         }
         else {
             while ( x==' ' ){
-                astr >> x;
+                list >> x;
             }
 
             if ( x == ')' )
                 y = NULL;
             else {
-                read_s_expr ( x, p1, astr);
-                read_seq ( p2, astr);
+                read_s_expr ( x, p1, list);
+                read_seq ( p2, list);
                 y = cons (p1, p2);
             }
         }
