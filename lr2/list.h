@@ -15,6 +15,10 @@ struct s_expr {
 typedef s_expr *lisp;
 using namespace std;
 #include <fstream>
+#include <iostream>
+#include <sstream>
+#include <cstdlib>
+#include <cstring>
 
 lisp reverse(const lisp s);
 
@@ -36,14 +40,15 @@ void destroy (lisp s);
 
 char getAtom (const lisp s);
 
-void read_lisp ( lisp& y, ifstream &infile); 
+void read_lisp ( lisp& y, istream &astr);
 
-void read_s_expr (char prev, lisp& y, ifstream &infile);
+void read_s_expr (char prev, lisp& y, istream &astr);
 
-void read_seq ( lisp& y, ifstream &infile);
+void read_seq ( lisp& y, istream &astr);
 
-void write_lisp (const lisp x); 
+void write_lisp (const lisp x);
 
 void write_seq (const lisp x);
+
 
 
