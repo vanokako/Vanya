@@ -1,12 +1,3 @@
-#include <cstdio>
-#include <cstdlib>
-#include "list.h"
-#include <iostream>
-
-using namespace std;
-
-
-
 lisp head (const lisp s){
         if (s != NULL)
             if (!isAtom(s))
@@ -35,14 +26,14 @@ bool isNull (const lisp s){
 
 
 lisp tail (const lisp s){
-	if (s != NULL){
+    if (s != NULL){
             if (!isAtom(s))
                 return s->node.pair.tail;
             else {
                 cerr << "Error: Tail(atom) \n";
                 exit(1);
             }
-	}
+    }
         else {
             cerr << "Error: Tail(nil) \n";
             exit(1);
@@ -69,7 +60,7 @@ lisp cons (const lisp h, const lisp t){
             }
         }
 }
- 
+
 
 lisp make_atom (const char x){
         lisp s;
@@ -78,7 +69,7 @@ lisp make_atom (const char x){
         s->node.atom = x;
         return s;
     }
- 
+
 
 void destroy (lisp s){
         if ( s != NULL) {
@@ -94,16 +85,16 @@ void destroy (lisp s){
 
 
 
-void read_lisp ( lisp& y, ifstream &infile){
+void read_lisp ( lisp& y, istream &astr){
         char x;
         do{
-            infile >> x;
+            astr >> x;
         }while (x==' ');
-        read_s_expr ( x, y, infile);
+        read_s_expr ( x, y, astr);
 }
 
 
-void read_s_expr (char prev, lisp& y, ifstream &infile){ 
+void read_s_expr (char prev, lisp& y, istream &astr){
         if ( prev == ')' ) {
             cerr << " ! Закрывающая скобка перед открывающей ! " << endl;
             exit(1);
@@ -111,28 +102,28 @@ void read_s_expr (char prev, lisp& y, ifstream &infile){
         else if ( prev != '(' )
             y = make_atom (prev);
         else
-            read_seq (y, infile);
-} 
-  
+            read_seq (y, astr);
+}
 
 
-void read_seq ( lisp& y, ifstream &infile){
+
+void read_seq ( lisp& y, istream &astr){
         char x;
         lisp p1, p2;
-        if (!(infile >> x)) {
+        if (!(astr >> x)) {
             cerr << " ! Не хватает символов ! " << endl;
             exit(1);
         }
         else {
             while ( x==' ' ){
-                infile >> x;
+                astr >> x;
             }
 
             if ( x == ')' )
                 y = NULL;
             else {
-                read_s_expr ( x, p1, infile);
-                read_seq ( p2, infile);
+                read_s_expr ( x, p1, astr);
+                read_seq ( p2, astr);
                 y = cons (p1, p2);
             }
         }
@@ -144,12 +135,12 @@ void write_lisp (const lisp x){
             cout << " ()";
         else if (isAtom(x))
             cout << ' ' << x->node.atom;
-        else { 
+        else {
             cout << " (" ;
             write_seq(x);
             cout << " )";
         }
-} 
+}
 
 void write_seq (const lisp x){
         if (!isNull(x)) {
@@ -159,14 +150,13 @@ void write_seq (const lisp x){
 }
 
 lisp rev(const lisp s,const lisp z){
-	if(isNull(s)) 
-		return(z);
-	else if(isAtom(head(s))) 
-		return(rev(tail(s), cons(head(s),z)));
-	else 
-		return(rev(tail(s), cons(rev(head(s), NULL),z)));
-}
+    if(isNull(s))
+        return(z);
+   else if(isAtom(head(s))){
+       return(rev(tail(s), cons(head(s),z)));
 
-    
- 
- 
+    }
+    else
+        return(rev(tail(s), cons(rev(head(s), NULL),z)));
+
+}
