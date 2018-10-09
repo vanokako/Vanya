@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#define N 500
+
+
+typedef struct Queue {
+    char* arr;
+    int start,end, size;
+}Queue;
+
+void push(Queue* queue, char sym) {
+    if (queue->size == N)
+		queue->arr = realloc(queue->arr, 2*queue->size);
+	queue->end++;
+	queue->size++;
+	queue->arr[queue->end] = sym;		
+}
+
+char pop(Queue* queue) {
+	char x;
+	int h;
+	x = queue->arr[queue->start];
+	for(h = queue->start; h < queue->end; h++) {
+		queue->arr[h] = queue->arr[h+1];
+	}
+	queue->end--;
+	queue->size--;
+	return(x);
+}
+
+char top(Queue* queue) {
+    return queue->arr[queue -> start];
+}
+
+int isEmpty(Queue* queue) {
+	return queue->size;
+}
+
+void initQ(Queue* queue) {
+    	queue->start = 0;
+	queue->end = -1;
+	queue->size = 0;
+    	queue->arr = (char*)calloc(N,sizeof(char));
+}
+
+int isOperation(char x){
+	if (x == '*' || x == '\\' || x == '+' || x == '-')
+		return 1;
+	return 0;
+}
+
+int isNumber(char x){
+	if (x >= '0' && x <= '9')
+		return 1;
+	return 0;
+}
+
+int isVar(char x){
+	if (x >= 'A' && x <= 'z')
+		return 1;
+	return 0;
+}
+
+int main(){
+	int i = 0;
+	Queue q;
+	initQ(&q);
+	char x[] = "3+5*8";
+	//FILE *file = fopen("infix.txt", "r");
+	while (x[i]) {
+		if (isOperation(x[i])){
+			printf("%c", x[i]);
+			printf ("%c", pop (&q));
+		}
+		if (isNumber(x[i])){
+			push(&q, x[i]);
+		}
+		i++;
+	}
+	while (q.size != 0)
+		printf ("%c",pop (&q));
+	printf ("\n");
+	return 0;
+}
