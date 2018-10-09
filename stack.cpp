@@ -1,32 +1,43 @@
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 #define N 500
 
-typedef struct Stack {
-    char arr[N];
-    int index;
-}Stack;
+typedef struct Queue {
+    char* arr;
+    int start,end, size;
+}Queue;
 
-void push(Stack* stack, char sym) {
-    stack->arr[stack->index] = sym;
-    stack->index++;
+void push(Queue* queue, char sym) {
+    if (queue->size == N)
+		queue->arr = realloc(queue->arr, 2*queue->size);
+	queue->end++;
+	queue->arr[queue->end] = sym;		
 }
 
-char pop(Stack* stack) {
-    stack->index--;
-    return stack->arr[stack->index];
+char pop(Queue* queue) {
+	char x;
+	int h;
+	x = queue->arr[queue->start];
+	for(h = queue->start; h < queue->end; h++) {
+		queue->arr[h] = queue->arr[h+1];
+	}
+	queue->end--;
+	queue->size--;
+	return(x);
 }
 
-char top(Stack* stack) {
-    return stack->arr[stack->index - 1];
+char top(Queue* queue) {
+    return queue->arr[queue -> start];
 }
 
-int isEmpty(Stack* stack) {
-    return (!stack->index);
+int isEmpty(Queue* queue) {
+	return queue->size;
 }
 
-void initStack(Stack* stack) {
-    stack->index = 0;
-    stack->arr[0] = '\0';
+void initQ(Queue* queue) {
+    	queue->start = 0;
+	queue->end = -1;
+	queue->size = 0;
+    	queue->arr = (char*)calloc(N,sizeof(char));
 }
