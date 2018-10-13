@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <cctype>
 using namespace std;
 
 
@@ -85,6 +86,9 @@ int prioritet(char ch){
         case '*': case '\\':{
             return 2;
         }
+        case '^':{
+             return 3;
+        }
     default:{
         return 0;
     }
@@ -93,19 +97,19 @@ int prioritet(char ch){
 }
 
 bool isOperation(char x){
-    if (x == '*' || x == '\\' || x == '+' || x == '-')
+    if (x == '^' || x == '*' || x == '/' || x == '+' || x == '-')
         return true;
     return false;
 }
 
 bool isNumber(char x){
-    if (x >= '0' && x <= '9')
+    if (isdigit(x))
         return true;
     return false;
 }
 
 bool isVar(char x){
-    if (x >= 'A' && x <= 'z')
+    if (isalpha(x))
         return true;
     return false;
 }
@@ -131,7 +135,8 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
                 if(!operations.Size())
                     operations.push(infix[i]);
                 else{
-                    while(prioritet(infix[i]) < prioritet(operations.Top()) && operations.Size()){
+                    while(prioritet(infix[i]) <= prioritet(operations.Top()) && operations.Size()){
+                        cout<<operations.Top()<<endl;
                         ans.insert(0, 1, operations.pop());
                         ans.insert(0, 1, space);
                     }
