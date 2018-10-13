@@ -1,85 +1,147 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#define N 500
+#include <iostream>
+#include <cstring>
+
+using namespace std;
 
 
-typedef struct Queue {
-    char* arr;
-    int start,end, size;
-}Queue;
+template <class Type>
+class Stack {
+Type* arr;
+int head,tail, size, maxsize;
+public :
+   Stack () ;
+   void push ( Type sym ) ;
+   Type pop();
+   int Size();
+   void resize(int maxsize);
+   Type Top();
+} ;
+//----------------
 
-void push(Queue* queue, char sym) {
-    if (queue->size == N)
-		queue->arr = realloc(queue->arr, 2*queue->size);
-	queue->end++;
-	queue->size++;
-	queue->arr[queue->end] = sym;		
+template <class Type>
+Stack<Type>::Stack()
+{
+   arr = new char[100];
+   head = size = 0 ;
+   tail= -1;
+   maxsize = 100;
+}
+//----------------
+
+template <class Type>
+void Stack<Type>::push (Type sym){
+    if (size == maxsize){
+            maxsize *= 2;
+
+    }
+
+        tail++;
+        size++;
+        arr[tail] = sym;
+}
+//----------------
+template <class Type>
+Type Stack<Type>::pop(){
+    char x;
+    int h;
+    x = arr[tail];
+        tail--;
+        size--;
+        return(x);
 }
 
-char pop(Queue* queue) {
-	char x;
-	int h;
-	x = queue->arr[queue->start];
-	for(h = queue->start; h < queue->end; h++) {
-		queue->arr[h] = queue->arr[h+1];
-	}
-	queue->end--;
-	queue->size--;
-	return(x);
+//----------------
+
+template <class Type>
+int Stack<Type>::Size(){
+    return (size);
 }
 
-char top(Queue* queue) {
-    return queue->arr[queue -> start];
+
+template <class Type>
+void Stack<Type>::resize(int new_size){
+    Type* new_arr = new Type[new_size];
+    int i;
+    for (i = 0; i < size; i++){
+        new_arr[i] = arr[i];
+    }
+    delete[] arr;
+    maxsize = new_size;
+    arr = new_arr;
+
 }
 
-int isEmpty(Queue* queue) {
-	return queue->size;
+template <class Type>
+Type Stack<Type>::Top(){
+    return(arr[tail]);
+
 }
 
-void initQ(Queue* queue) {
-    	queue->start = 0;
-	queue->end = -1;
-	queue->size = 0;
-    	queue->arr = (char*)calloc(N,sizeof(char));
+
+int prioritet(char ch){
+    switch(ch){
+        case '+': case'-':{
+            return 1;
+        }
+        case '*': case '\\':{
+            return 2;
+        }
+
+    }
 }
 
-int isOperation(char x){
-	if (x == '*' || x == '\\' || x == '+' || x == '-')
-		return 1;
-	return 0;
+bool isOperation(char x){
+    if (x == '*' || x == '\\' || x == '+' || x == '-')
+        return true;
+    return false;
 }
 
-int isNumber(char x){
-	if (x >= '0' && x <= '9')
-		return 1;
-	return 0;
+bool isNumber(char x){
+    if (x >= '0' && x <= '9')
+        return true;
+    return false;
 }
 
-int isVar(char x){
-	if (x >= 'A' && x <= 'z')
-		return 1;
-	return 0;
+bool isVar(char x){
+    if (x >= 'A' && x <= 'z')
+        return true;
+    return false;
 }
 
-int main(){
-	int i = 0;
-	Queue q;
-	initQ(&q);
-	char x[] = "3+5*8";
-	//FILE *file = fopen("infix.txt", "r");
-	while (x[i]) {
-		if (isOperation(x[i])){
-			printf("%c", x[i]);
-			printf ("%c", pop (&q));
-		}
-		if (isNumber(x[i])){
-			push(&q, x[i]);
-		}
-		i++;
-	}
-	while (q.size != 0)
-		printf ("%c",pop (&q));
-	printf ("\n");
-	return 0;
+
+int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ
+        int i = 0;
+        const char space = ' ';
+        string ans;
+        char ans1;
+        Stack <char> operations;
+        char x[] = "12+3*4+5";
+        i = strlen(x);
+        while (i >= 0){
+            if(isVar(x[i]) || isNumber(x[i])){
+                ans.insert(0, 1, x[i]);
+                if(!isVar(x[i-1]) && !(isNumber(x[i-1])))
+                     ans.insert(0, 1, space);
+
+            }
+            if (isOperation(x[i])){
+                if(!operations.Size())
+                    operations.push(x[i]);
+                else{
+                    while(prioritet(x[i]) < prioritet(operations.Top()) && operations.Size()){
+                        ans.insert(0, 1, operations.pop());
+                        ans.insert(0, 1, space);
+                    }
+                    operations.push(x[i]);
+                }
+            }
+
+            i--;
+        }
+        while(operations.Size()){
+            ans.insert(0, 1, operations.pop());
+            ans.insert(0, 1, space);
+        }
+        cout<<""<<ans<<endl;
+
 }
