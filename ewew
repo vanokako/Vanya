@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-
+#include <fstream>
 using namespace std;
 
 
@@ -43,7 +43,6 @@ void Stack<Type>::push (Type sym){
 template <class Type>
 Type Stack<Type>::pop(){
     char x;
-    int h;
     x = arr[tail];
         tail--;
         size--;
@@ -86,6 +85,9 @@ int prioritet(char ch){
         case '*': case '\\':{
             return 2;
         }
+    default:{
+        return 0;
+    }
 
     }
 }
@@ -109,31 +111,44 @@ bool isVar(char x){
 }
 
 
-int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ
+int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
         int i = 0;
         const char space = ' ';
         string ans;
-        char ans1;
+        string infix;
         Stack <char> operations;
-        char x[] = "12+3*4+5";
-        i = strlen(x);
+        /*ifstream infile("D:\govno\keklil");*/
+        getline(cin, infix);
+        i = infix.length();
         while (i >= 0){
-            if(isVar(x[i]) || isNumber(x[i])){
-                ans.insert(0, 1, x[i]);
-                if(!isVar(x[i-1]) && !(isNumber(x[i-1])))
+            if(isVar(infix[i]) || isNumber(infix[i])){
+                ans.insert(0, 1, infix[i]);
+                if(!isVar(infix[i-1]) && !(isNumber(infix[i-1])))
                      ans.insert(0, 1, space);
 
             }
-            if (isOperation(x[i])){
+            if (isOperation(infix[i])){
                 if(!operations.Size())
-                    operations.push(x[i]);
+                    operations.push(infix[i]);
                 else{
-                    while(prioritet(x[i]) < prioritet(operations.Top()) && operations.Size()){
+                    while(prioritet(infix[i]) < prioritet(operations.Top()) && operations.Size()){
                         ans.insert(0, 1, operations.pop());
                         ans.insert(0, 1, space);
                     }
-                    operations.push(x[i]);
+                    operations.push(infix[i]);
                 }
+
+            }
+            if(infix[i] ==')'){
+                operations.push(infix[i]);
+            }
+           if(infix[i] =='('){
+               while (prioritet(operations.Top())){
+                  ans.insert(0, 1, operations.pop());
+                  ans.insert(0, 1, space);
+
+               }
+               operations.pop();
             }
 
             i--;
