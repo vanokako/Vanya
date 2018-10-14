@@ -81,7 +81,7 @@ Type Stack<Type>::Top(){
 template <class Type>
 Stack<Type>::~Stack() {
 
-    delete[] _data;
+    delete[] arr;
     }
 
 
