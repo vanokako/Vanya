@@ -139,7 +139,6 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
                     operations.push(infix[i]);
                 else{
                     while(prioritet(infix[i]) <= prioritet(operations.Top()) && operations.Size()){
-                        cout<<operations.Top()<<endl;
                         ans.insert(0, 1, operations.pop());
                         ans.insert(0, 1, space);
                     }
