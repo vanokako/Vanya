@@ -34,6 +34,7 @@ template <class Type>
 void Stack<Type>::push (Type sym){
     if (size == maxsize){
             maxsize *= 2;
+            resize (maxsize);
 
     }
 
