@@ -128,17 +128,18 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
         i = infix.length();
         while (i >= 0){
 
-            if(isVar(infix[i]) || isNumber(infix[i])){
+              if(isVar(infix[i]) || isNumber(infix[i])){
                 ans.insert(0, 1, infix[i]);
                 if(!isVar(infix[i-1]) && !(isNumber(infix[i-1])))
                      ans.insert(0, 1, space);
 
             }
-            if (isOperation(infix[i])){
+            else if (isOperation(infix[i])){
                 if(!operations.Size())
                     operations.push(infix[i]);
                 else{
                     while(prioritet(infix[i]) <= prioritet(operations.Top()) && operations.Size()){
+                        //cout<<operations.Top()<<endl;
                         ans.insert(0, 1, operations.pop());
                         ans.insert(0, 1, space);
                     }
@@ -146,10 +147,10 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
                 }
 
             }
-            if(infix[i] ==')'){
+          else if(infix[i] ==')'){
                 operations.push(infix[i]);
             }
-           if(infix[i] =='('){
+          else if(infix[i] =='('){
                while (prioritet(operations.Top())){
                   ans.insert(0, 1, operations.pop());
                   ans.insert(0, 1, space);
@@ -158,6 +159,11 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
                operations.pop();
             }
 
+
+            else{
+                cout<<"Лишние символы"<<endl;
+                return 0;
+            }
             i--;
         }
         while(operations.Size()){
