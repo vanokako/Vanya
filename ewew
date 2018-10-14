@@ -114,13 +114,13 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
         Stack <char> operations;
         //ifstream infile("infix.txt");
         getline(cin, infix);
-        if(!isalpha(infix[i]) && !isdigit(infix[i])){ 
+        if(!isalpha(infix[i]) && !isdigit(infix[i]) && infix[i] != '('){
             cout<<"Неверное инфиксное выражение - первый символ не переменная и не число"<<endl;
             return 0;
         }
        // infile.close();
         i = infix.length() - 1;
-        if(!isalpha(infix[i]) && !isdigit(infix[i])){ 
+        if(!isalpha(infix[i]) && !isdigit(infix[i]) && infix[i] != ')'){
             cout<<"Неверное инфиксное выражение - операция в конце строки"<<endl;
             return 0;
         }
@@ -184,6 +184,9 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
         ans.clear();
         infix.clear();
         return 0;
-        
+
 
 }
+
+
+
