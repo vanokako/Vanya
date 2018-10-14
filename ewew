@@ -33,8 +33,7 @@ Stack<Type>::Stack()
 template <class Type>
 void Stack<Type>::push (Type sym){
     if (size == maxsize){
-            maxsize *= 2;
-            resize (maxsize);
+            resize (2*maxsize);
 
     }
 
@@ -91,7 +90,7 @@ int prioritet(char ch){
         case '+': case'-':{
             return 1;
         }
-        case '*': case '\\':{
+        case '*': case '/':{
             return 2;
         }
         case '^':{
