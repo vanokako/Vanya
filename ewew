@@ -78,6 +78,12 @@ Type Stack<Type>::Top(){
 
 }
 
+template <class Type>
+Stack<Type>::~Stack() {
+
+    delete[] _data;
+    }
+
 
 int prioritet(char ch){
     switch(ch){
