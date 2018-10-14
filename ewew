@@ -2,6 +2,7 @@
 #include <cstring>
 #include <fstream>
 #include <cctype>
+
 using namespace std;
 
 
@@ -121,10 +122,12 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
         string ans;
         string infix;
         Stack <char> operations;
-        /*ifstream infile("D:\govno\keklil");*/
-        getline(cin, infix);
+        ifstream infile("infix.txt");
+        getline(infile, infix);
+        infile.close();
         i = infix.length();
         while (i >= 0){
+
             if(isVar(infix[i]) || isNumber(infix[i])){
                 ans.insert(0, 1, infix[i]);
                 if(!isVar(infix[i-1]) && !(isNumber(infix[i-1])))
@@ -162,6 +165,12 @@ int main(){ //A*B+C*D = +*AB*CD   C+D*E+Q = ++C*DEQ  (A+B*C)*D =
             ans.insert(0, 1, operations.pop());
             ans.insert(0, 1, space);
         }
-        cout<<""<<ans<<endl;
+        ofstream out("prefix.txt");
+        out<<ans;
+        cout<<"Выражение записано в префиксном форме"<<endl;
+        out.close();
 
 }
+
+
+
