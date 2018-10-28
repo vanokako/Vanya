@@ -25,7 +25,8 @@ class BinaryTree {
                     if (string[i] == ')')
                             i++;
                     else{
-                    cout << "')' expected at the index:"<<i<<endl;
+                        cout << "')' expected at the index:"<<i<<endl;
+                        exit(1);
 
 
                 }
@@ -33,6 +34,7 @@ class BinaryTree {
                 }
             else{
                 cout << "'(' expected at the index:"<<i<<endl;
+                exit(1);
 
                 }
 
@@ -44,7 +46,8 @@ class BinaryTree {
                     i++;
                 }
                 else {
-                     cout<<"Expected number or letter at the index"<<i<<endl;
+                     cout<<"Expected number or letter at the index: "<<i<<endl;
+                    exit(1)
                 }
         }
             void readUnder(const string &string, int &i, int side){
