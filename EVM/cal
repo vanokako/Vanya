@@ -1,0 +1,103 @@
+AStack    SEGMENT  STACK
+          DW 12 DUP(?)
+AStack    ENDS
+
+; Данные программы
+
+DATA      SEGMENT
+
+;  Директивы описания данных
+
+a      DW    1
+b      DW    0
+i      DW    4
+k      DW    -2
+i1     DW    0
+i2     DW    0
+res    DW    0
+
+DATA      ENDS
+
+; Код программы
+
+CODE      SEGMENT
+          ASSUME CS:CODE, DS:DATA, SS:AStack
+
+; Головная процедура
+Main    PROC  FAR
+        push  DS
+        sub   AX,AX
+        push  AX
+        mov   AX,DATA
+        mov   DS,AX
+
+		mov ax,i
+		mov dx, a
+		cmp dx,b
+		jg l1    		       ;if (a>b)
+			sal ax,1
+			sal ax,1               ;first function
+			add ax,i
+			add ax,i
+			neg ax 
+			add ax,8
+			mov i1,ax
+			
+			sar ax, 1
+			neg ax			;second function
+			add ax, 10
+			mov i2, ax
+			
+			
+			jmp l2                     
+			
+
+			
+		l1:                             ; a>b
+		   	sal ax,1
+			sal ax,1                ;first function
+			neg ax 
+			add ax,7
+			mov i1,ax
+			
+			
+			sub ax, i		;second function
+			sub ax, i
+			sub ax, 3
+		        mov i2, ax
+				 
+			
+		l2:
+			mov dx, k
+			cmp dx, 0
+			jl l3
+			
+			mov ax, i1
+			sub ax, i2
+			cmp ax, 0
+			jg l4
+			neg ax
+			mov dx, ax
+			jg l4
+			
+			
+	
+		l3:	
+			mov ax, i2	
+			neg ax
+			add ax, 10
+			cmp i1, ax
+			jg  great
+			mov dx, ax
+			jmp l4
+
+		great:
+			mov dx, i1
+		
+		l4:
+			mov res,dx 
+
+		ret   
+Main    ENDP
+CODE    ENDS
+        END Main
