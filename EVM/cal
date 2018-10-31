@@ -31,22 +31,21 @@ Main    PROC  FAR
         mov   AX,DATA
         mov   DS,AX
 
-		mov ax,i
+		mov bx,i
+		add bx, i
+		add bx, i
+		mov ax, bx
+		sal ax, 1
 		mov dx, a
 		cmp dx,b
 		jg l1    		       ;if (a>b)
-			sal ax,1
-			sal ax,1               ;first function
-			add ax,i
-			add ax,i
 			neg ax 
 			add ax,8
 			mov i1,ax
 			
-			sar ax, 1
-			neg ax			;second function
-			add ax, 10
-			mov i2, ax
+					
+			add bx, 6
+			mov i2, bx
 			
 			
 			jmp l2                     
@@ -54,16 +53,14 @@ Main    PROC  FAR
 
 			
 		l1:                             ; a>b
-		   	sal ax,1
-			sal ax,1                ;first function
-			neg ax 
-			add ax,7
-			mov i1,ax
+		   	add bx, i               ;first function
+			neg bx 
+			add bx,7
+			mov i1,bx
 			
 			
-			sub ax, i		;second function
-			sub ax, i
-			sub ax, 3
+			neg ax
+			add ax, 4
 		        mov i2, ax
 				 
 			
