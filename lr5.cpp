@@ -3,20 +3,16 @@
 
 using namespace std;
 
-void print_tabs(size_t tabs_count) {
-    for (size_t i = 0; i < tabs_count; ++i)
-        std::cout << '\t';
-}
-
-class BinTree {
-    private:
+typedef struct treap{
         int value;
-        BinTree *left;
-        BinTree *right;
+        int key;
+        treap *left = NULL;
+        treap *right = NULL;
+} Treap;
 
 
-    public:
-        void printtree(BinTree* treenode, int l){
+
+        void printtree(Treap* treenode, int l){
                    if(treenode==NULL){
                        for(int i = 0;i<l;++i)
                            cout<<"\t";
@@ -26,42 +22,73 @@ class BinTree {
                    printtree(treenode->right, l+1);
                    for(int i = 0; i < l; i++)
                        cout << "\t";
-                   cout << treenode->value<< endl;
+                   cout << '('<<treenode->key<<','<<treenode->value<<')'<< endl;
                    printtree(treenode->left,l+1);
                 }
 
-        BinTree(){
-            left = NULL;
-            right = NULL;
-        }
 
-        friend void newBinTree(int val, BinTree** Tree) {
+       void newBinTree(int val, int key, Treap** Tree) {
             if ((*Tree) == NULL)
             {
-                (*Tree) = new BinTree; //Выделить память
+                (*Tree) = new Treap; //Выделить память
                 (*Tree)->value = val;  //Поместить в выделенное место аргумент
+                (*Tree)->key = key;
                 (*Tree)->left = (*Tree)->right = NULL;
                 return;
             }
-            if (val > (*Tree)->value)
-                newBinTree(val, &(*Tree)->right);//Если аргумент больше чем текущий элемент, поместить его вправо
+            if (key > (*Tree)->key)
+                newBinTree(val, key, &(*Tree)->right);//Если аргумент больше чем текущий элемент, поместить его вправо
             else
-                newBinTree(val, &(*Tree)->left);//Иначе поместить его влево
+                newBinTree(val,key, &(*Tree)->left);//Иначе поместить его влево
         }
 
+       void merge(Treap*& treapEl,Treap* leftTreapEl,Treap* rightTreapEl){
+         if (leftTreapEl == NULL){
+             treapEl = rightTreapEl;
+           }
+         else if (rightTreapEl == NULL){
+             treapEl = leftTreapEl;
+           }
+         else if (leftTreapEl->key < rightTreapEl->key){
+             merge(rightTreapEl->left,leftTreapEl,rightTreapEl->left);
+             treapEl = rightTreapEl;
+           }
+         else{
+             merge(leftTreapEl->right,leftTreapEl->right,rightTreapEl);
+             treapEl = leftTreapEl;
+           }
+       }
 
-};
+       bool isExistInTreap(Treap* treapEl, Treap* findEl){
+         if (treapEl == NULL){
+             return false;
+           }
+         else if(findEl->key < treapEl->key){
+                 isExistInTreap(treapEl->left,findEl);
+           }
+         else if(findEl->key > treapEl->key){
+                 isExistInTreap(treapEl->right,findEl);
+           }
+         else{
+             if (findEl->value == treapEl->value)
+               return true;
+             else return false;
+           }
+       }
+
+
 
 int main(){
-    BinTree* tree = NULL;
-    int i = 0, x;
+    Treap* tree = NULL;
+    int i = 0, x, y;
     string str;
     while (i != 5){
        cin>>x;
-       newBinTree(x, &tree);
+       cin>>y;
+       newBinTree(x,y, &tree);
        i++;
     }
-    tree->printtree(tree,0);
+    printtree(tree,0);
 
      return 0;
 }
