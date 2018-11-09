@@ -171,11 +171,13 @@ node* remove(node* p, int k){ // удаление из дерева p перво
 
         }
         printtree(treap,0);
+	cout<<"Enter the key"<<endl<<"============================"<<endl;
         cin >> key;
         treap = remove(treap, key);
         printtree(treap,0);
         treap = Delete(treap);
+	str.clear();
+	delete tok;
+	delete arr;
     }
  }
-
-
