@@ -183,6 +183,6 @@ node* remove(node* p, int k){ // удаление из дерева p перво
         treap = Delete(treap);
 	str.clear();
 	delete tok;
-	delete arr;
+	delete[] arr;
     }
  }
