@@ -7,23 +7,13 @@ using namespace std;
 
 struct node{     // структура для представления узлов дерева
     int key;
-	int prior;
-    int size;
+    int prior;
     node* left;
     node* right;
-    node(int k) { key = k; left = right = NULL; size = 1; prior = rand()%100;}
+    node(int k) { key = k; left = right = NULL; prior = rand()%100;}
 };
 
 
-int getsize(node* p){ // обертка для поля size
-    if( !p )
-        return 0;
-    return p->size;
-}
-
-void fixsize(node* p){ // установление корректного размера дерева
-    p->size = getsize(p->left)+getsize(p->right)+1;
-}
 
 node* rotateright(node* p){ // правый поворот вокруг узла p
     node* q = p->left;
@@ -31,8 +21,6 @@ node* rotateright(node* p){ // правый поворот вокруг узла
         return p;
     p->left = q->right;
     q->right = p;
-    q->size = p->size;
-    fixsize(p);
     return q;
 }
 
@@ -42,45 +30,43 @@ node* rotateleft(node* q){ // левый поворот вокруг узла q
         return q;
     q->right = p->left;
     p->left = q;
-    p->size = q->size;
-    fixsize(q);
     return p;
 }
 
 
 node* insert(int key, node* root){
-	if(!root){
-		node* p = new node(key);
-		return (p);
-	}
-	if(key <= root->key)
-	{
-		root->left = insert(key, root->left);
-		if(root->left->prior < root->prior)
-			root = rotateright(root);
-	}
-	else{
-		root->right = insert(key, root->right);
-		if(root->right->prior < root->prior)
-			root = rotateleft(root);
-	}
-	return root;
+    if(!root){
+        node* p = new node(key);
+        return (p);
+    }
+    if(key <= root->key)
+    {
+        root->left = insert(key, root->left);
+        if(root->left->prior < root->prior)
+            root = rotateright(root);
+    }
+    else{
+        root->right = insert(key, root->right);
+        if(root->right->prior < root->prior)
+            root = rotateleft(root);
+    }
+    return root;
 }
 
 
 
 node* merge(node *p, node *q) {
-	if (p == NULL) return q;
-	if (q == NULL) return p;
+    if (p == NULL) return q;
+    if (q == NULL) return p;
 
-	if (p->prior > q->prior) {
-		p->right = merge(p->right, q);
-		return p;
-	}
-	else {
-		q->left = merge(p, q->left);
-		return q;
-	}
+    if (p->prior > q->prior) {
+        p->right = merge(p->right, q);
+        return p;
+    }
+    else {
+        q->left = merge(p, q->left);
+        return q;
+    }
 }
 
 
@@ -94,11 +80,11 @@ node* Delete(node* p){
 }
 
 void printPriority(node* root){
-	if (!root)
-		return;
-	cout<<"Priority of key ["<< root->key <<"] is "<<root->prior<<endl;
-	printPriority(root->right);
-	printPriority(root->left);
+    if (!root)
+        return;
+    cout<<"Priority of key ["<< root->key <<"] is "<<root->prior<<endl;
+    printPriority(root->right);
+    printPriority(root->left);
 }
 
 
@@ -173,16 +159,17 @@ node* remove(node* p, int k){ // удаление из дерева p перво
             tok = strtok(NULL, " ");
 
         }
-		printPriority(treap);
-		cout<<endl;
+        printPriority(treap);
+        cout<<endl;
         printtree(treap,0);
-	cout<<"Enter the key"<<endl<<"============================"<<endl;
+    cout<<"Enter the key"<<endl<<"============================"<<endl;
         cin >> key;
         treap = remove(treap, key);
         printtree(treap,0);
         treap = Delete(treap);
-	str.clear();
-	delete tok;
-	delete[] arr;
+    str.clear();
+    delete tok;
+    delete[] arr;
     }
+
  }
