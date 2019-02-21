@@ -8,7 +8,7 @@ class Matrix
     private:
         int **Matr;
         int m;
-		int sqares;
+	int sqares;
  
         void Create(){
             Matr = new int*[m];
@@ -72,8 +72,8 @@ class Matrix
 		
         void begin(int k){
 	    sqares++;
-            for (int i = 0; i < k; i++){
-                for (int j = 0; j < k; j++){
+            for (int i = m-k; i < m; i++){
+                for (int j = m-k; j < m; j++){
                     Matr[i][j] = sqares;
                 }
              }
@@ -102,8 +102,8 @@ class Matrix
         }
 
 		bool find_space(int& x, int& y){
-			for (int i = y; i < m; ++i){
-				for (int j = x; j < m; ++j){
+			for (int i = 0; i < m; ++i){
+				for (int j = 0; j < m; ++j){
 					if (Matr[i][j] == 0){
 						x = j;
 						y = i;
@@ -157,6 +157,8 @@ class Matrix
 	void backtracking (Matrix& matr, int size, int& worth_numbers){
 		int x = 0, y = 0;
 		for (int i = size; i > 0; --i){
+			//matr.Display();
+			//cout<<endl<<"==============="<<endl;
 			if(!matr.find_space(x, y)){
 				x = 0;
 				y = 0;
@@ -198,6 +200,7 @@ int main(){
         k = (size+1)/2;
     Matrix matr(size);
     matr.begin(k);
+	matr.Display();
 	backtracking(matr, k-1, worth_numbers);
 	matr.Display();
 	cout<<worth_numbers<<endl;
