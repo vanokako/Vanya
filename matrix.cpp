@@ -8,7 +8,7 @@ class Matrix
     private:
         int **Matr;
         int m;
-	int sqares;
+	int squares;
  
         void Create(){
             Matr = new int*[m];
@@ -22,13 +22,13 @@ class Matrix
         }
  
     public:
-        Matrix(int i): m(i), sqares(0){ 
+        Matrix(int i): m(i), squares(0){ 
             Create(); 
         }
 	
 		 Matrix(const Matrix& N){
          	m = N.m;
-			sqares = N.sqares;
+			squares = N.squares;
          	Matr = new int*[m];
         	for (int i = 0; i < m; i++)
             	Matr[i] = new int[m];
@@ -44,7 +44,7 @@ class Matrix
       		if(this != &origin){
         		Matrix temp(origin);
         		m = temp.m;
-				sqares = temp.sqares;
+				squares = temp.squares;
         		for (int i = 0; i < m; i++){
             		for (int j = 0; j < m; j++){
                 		Matr[i][j] = origin.Matr[i][j];
@@ -64,27 +64,27 @@ class Matrix
         }
 
 		int get_sqares(){
-			return sqares;
+			return squares;
 		}
 		
 		
         void begin(int k){
-	    sqares++;
+	    squares++;
             for (int i = m-k; i < m; i++){
                 for (int j = m-k; j < m; j++){
-                    Matr[i][j] = sqares;
+                    Matr[i][j] = squares;
                 }
              }
 	     	 sqares++;
              for (int i = k; i < m; i++){
                 for (int j = 0; j < m-k; j++){
-                    Matr[i][j] = sqares;
+                    Matr[i][j] = squares;
                 }
              }
-			 sqares++;
+			 squares++;
              for (int i = 0; i < m-k; i++){
                 for (int j = k; j < m; j++){
-                    Matr[i][j] = sqares;
+                    Matr[i][j] = squares;
                 }
              }
           }
@@ -125,11 +125,11 @@ class Matrix
 			return true;
 		}    
 
-		void insert_sqare (int x, int y, int size){
-			sqares++;
+		void insert_square (int x, int y, int size){
+			squares++;
 			for (int i = y; i < y + size; ++i){
 				for (int j = x; j < x + size; ++j){
-					Matr[i][j] = sqares;
+					Matr[i][j] = squares;
 				}
 
  			}
@@ -166,7 +166,7 @@ class Matrix
 			}
 			if(matr.find_space(x, y)){
 				if (matr.enough_space(x, y, i)){
-					matr.insert_sqare(x, y, i);
+					matr.insert_square(x, y, i);
 					if (matr.find_space(x, y))
 						backtracking(matr,best,i, best_numbers);
 				}
