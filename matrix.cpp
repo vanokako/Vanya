@@ -63,7 +63,7 @@ class Matrix
             delete[] Matr;
         }
 
-		int get_sqares(){
+		int get_squares(){
 			return squares;
 		}
 		
@@ -75,7 +75,7 @@ class Matrix
                     Matr[i][j] = squares;
                 }
              }
-	     	 sqares++;
+	     	 squares++;
              for (int i = k; i < m; i++){
                 for (int j = 0; j < m-k; j++){
                     Matr[i][j] = squares;
@@ -158,8 +158,8 @@ class Matrix
 			if(!matr.find_space(x, y)){
 				x = 0;
 				y = 0;
-				if (best_numbers > matr.get_sqares()){
-					best_numbers = matr.get_sqares();
+				if (best_numbers > matr.get_squares()){
+					best_numbers = matr.get_squares();
 					best = matr;
 				}
 				matr.clear_board();
