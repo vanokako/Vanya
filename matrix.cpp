@@ -44,9 +44,7 @@ class Matrix
       		if(this != &origin){
         		Matrix temp(origin);
         		m = temp.m;
-        		Matr = new int*[m];
-        		for (int i = 0; i < m; i++)
-            		Matr[i] = new int[m];
+				sqares = temp.sqares;
         		for (int i = 0; i < m; i++){
             		for (int j = 0; j < m; j++){
                 		Matr[i][j] = origin.Matr[i][j];
@@ -154,29 +152,29 @@ class Matrix
 
 
 
-	void backtracking (Matrix& matr, int size, int& worth_numbers){
+	void backtracking (Matrix& matr, Matrix& best, int size, int& best_numbers){
 		int x = 0, y = 0;
 		for (int i = size; i > 0; --i){
-			//matr.Display();
-			//cout<<endl<<"==============="<<endl;
 			if(!matr.find_space(x, y)){
 				x = 0;
 				y = 0;
-				if (worth_numbers > matr.get_sqares())
-					worth_numbers = matr.get_sqares();
+				if (best_numbers > matr.get_sqares()){
+					best_numbers = matr.get_sqares();
+					best = matr;
+				}
 				matr.clear_board();
 			}
 			if(matr.find_space(x, y)){
 				if (matr.enough_space(x, y, i)){
 					matr.insert_sqare(x, y, i);
 					if (matr.find_space(x, y))
-						backtracking(matr,i, worth_numbers);
+						backtracking(matr,best,i, best_numbers);
 				}
 			}
 	
 
 		}
-					
+				
 	}
 		
 		 
@@ -187,9 +185,15 @@ int main(){
     int size, k;
     cin >> size;
 
-	int worth_numbers = size*size;
+	int best_numbers = size*size;
     if (size % 2 == 0){
         k = size/2;
+        cout << "4" << endl;
+        cout << "1 1 " << k << endl;
+        cout << k+1 << " 1 " << k << endl;
+        cout << "1 " << k+1 << " " << k << endl;
+        cout << k+1 << " " << k+1 << " "<< k << endl;
+        return 0;
 	}
 	else if ( size % 3 == 0){
 		k = size*2/3;
@@ -199,10 +203,12 @@ int main(){
     else
         k = (size+1)/2;
     Matrix matr(size);
+	Matrix best(size);
     matr.begin(k);
-	matr.Display();
-	backtracking(matr, k-1, worth_numbers);
-	matr.Display();
-	cout<<worth_numbers<<endl;
+	backtracking(matr,best, k-1, best_numbers);
+	//matr.Display();
+	cout<<endl;
+	//best.Display();
+	cout<<best_numbers<<endl;
     return 0;
 }
