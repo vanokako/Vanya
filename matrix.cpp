@@ -142,7 +142,7 @@ class Matrix
                     	Matr[i][j] = 0;
                 }
              } 
-			 sqares = standart_sqares;
+			 squares = standart_sqares;
 		}
 
 		
