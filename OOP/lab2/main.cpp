@@ -5,7 +5,7 @@
 #include "ellipse.h"
 
 int main(){
-       /*Triangle tri;
+       Triangle tri;
        std::cout<<"Standart constructor for triangle"<<tri<<std::endl<<std::endl<<"Moving to (-1,1), scaling, rotate 30"<<std::endl;
        tri.move({-1,1});
        tri.scale(3);
@@ -16,7 +16,7 @@ int main(){
        std::cout<<"Constructor for right triangle"<<rtri<<std::endl<<"Set green color, rotate 180"<<std::endl;
        rtri.set_colour(RGB(0, 255, 0));
        rtri.rotate(180);
-       std::cout << rtri << std::endl;*/
+       std::cout << rtri << std::endl;
 
        Ellipse ell({0,0}, 5, 5, RGB());
        std::cout<<"Constructor for right triangle"<<ell<<std::endl<<"Moving to (2, 3), scaling, set white colour "<<std::endl;
