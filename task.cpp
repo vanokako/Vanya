@@ -205,7 +205,13 @@ class Matrix
 };
 
 
+bool checking_square(double c){
+    if(std::sqrt(c) == static_cast<int>(std::sqrt(c)))
+        return true;
+    else
+        return false;
 
+}
 
 
 
@@ -222,6 +228,8 @@ int main(){
 
     else if (size % 5 == 0)
         k = size*3/5;
+    else if(checking_square(size))
+        k = ((size/std::sqrt(size))-1)*size/std::sqrt(size);
     else
         k = size-2;
     Matrix matr(size);
@@ -235,6 +243,6 @@ int main(){
     cout<<best_numbers<<endl;
     best.print_ans();
     cout<<endl;
-    best.Display();
+    //best.Display();
     return 0;
 }
