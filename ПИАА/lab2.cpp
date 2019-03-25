@@ -1,9 +1,7 @@
-
-#include <iostream>
+include <iostream>
 #include <vector>
 #include <algorithm>
 #include <iterator>
-#include <queue>
 
 struct Node{
     char name;
@@ -18,7 +16,7 @@ struct Node{
 bool cmp(const Node* a, const Node* b) {return a->key > b->key;}
 
 
-void create_list(std::vector <Node*>& list, char n1, char n2, double weight, char finish, int heruistic){
+void create_list(std::vector <Node*>& list, char n1, char n2, double weight){
         int it1 = -1, it2 = -1, i = 0;
 
         for (auto nd : list)
@@ -53,7 +51,6 @@ void create_list(std::vector <Node*>& list, char n1, char n2, double weight, cha
 
         list[it1]->nodes.push_back(list[it2]);
         list[it1]->weights.push_back(weight);
-        list[it1]->h = heruistic;
 
 }
 
@@ -99,6 +96,7 @@ std::string Astar(Node* start, Node* finish){
         ans.push_back(tmp->name);
         tmp = tmp->parent;
     }
+    delete tmp;
     return ans;
 }
 
@@ -111,17 +109,23 @@ int main()
     std::string ans;
     char start, finish, n1, n2;
     double weight;
-    int i = 0, it1 = 0, it2 = 0, heruistic;
+    int i = 0, it1 = 0, it2 = 0, heruistic = 0;
     std::cin >> start >> finish;
-    while (std::cin >> n1 >> n2 >> weight){
-        std::cin >> heruistic;
-        while (heruistic < 0){
-            std::cout<<"Enter the right heruistic for " << n1 <<std::endl;
-            std::cin>>heruistic;
-        }
-        create_list(list, n1, n2, weight, finish, heruistic);
+    while (std::cin >> n1 ){
+        if(n1 == '!')
+            break;
+        std::cin >> n2 >> weight;
+        create_list(list, n1, n2, weight);
     }
     for (auto nd : list){
+        std::cout << "Enter the heruistic for "<<nd->name<<std::endl;
+        std::cin.clear();
+        std::cin >> heruistic;
+        while (heruistic < 0){
+            std::cout<<"Enter the right heruistic for " << nd->name <<std::endl;
+            std::cin>>heruistic;
+        }
+        nd->h = heruistic;
         if (nd->name == start)
             it1 = i;
         if (nd->name == finish)
@@ -135,4 +139,3 @@ int main()
     return 0;
 
 }
-
