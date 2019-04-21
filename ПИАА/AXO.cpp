@@ -23,11 +23,11 @@ struct Vertex{
 class AK{
     std::vector <Vertex> bohr;
     std::vector <std::string> patterns;
-    int counter_of_pat;
+    int counter_of_ver;
 public:
     AK(){
         bohr.push_back(Vertex(0,0));
-        counter_of_pat = 1;
+        counter_of_ver = 1;
     }
 
 
@@ -37,7 +37,7 @@ public:
         for (auto sym : pattern) {
             if(bohr[tmp].edge.find(sym) == bohr[tmp].edge.end()){
                 bohr.push_back(Vertex(tmp, sym));
-                bohr[tmp].edge[sym] = counter_of_pat++;
+                bohr[tmp].edge[sym] = counter_of_ver++;
             }
             tmp = bohr[tmp].edge[sym];
         }
